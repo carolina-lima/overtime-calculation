@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 
 
 extra = []
-def overtime_calculation(start, end, user, schedule_name, policy_name):
+def overtime_calculation(start, end, user, schedule_name):
     
     f = '%Y-%m-%d %H:%M:%S'
     h ='%H:%M:%S'
@@ -29,7 +29,6 @@ def overtime_calculation(start, end, user, schedule_name, policy_name):
 
             extra.append(
                 {'name': user,
-                'policy_name': policy_name,
                 'schedule': schedule_name,
                 'date': str(value.date()),
                 'weekday': weekday[value.weekday()],
@@ -54,7 +53,6 @@ def overtime_calculation(start, end, user, schedule_name, policy_name):
             if inicio_jornada > start_absolute:
                 extra.append(
                     {'name': user,
-                    'policy_name': policy_name,
                     'schedule': schedule_name,
                     'date': str(value.date()),
                     'weekday': weekday[value.weekday()],
@@ -65,7 +63,6 @@ def overtime_calculation(start, end, user, schedule_name, policy_name):
             if end_absolute > fim_jornada:
                 extra.append(
                     {'name': user,
-                    'policy_name': policy_name,
                     'schedule': schedule_name,
                     'date': str(value.date()),
                     'weekday': weekday[value.weekday()],
