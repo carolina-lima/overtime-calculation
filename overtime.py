@@ -3,16 +3,17 @@ from datetime import datetime, timedelta
 
 
 extra = []
-def overtime_calculation(start, end, user, schedule_name):
+def overtime_calculation(start_scalation, end_scalation, user, schedule_name):
     
     f = '%Y-%m-%d %H:%M:%S'
     h ='%H:%M:%S'
-    start_scalation = start
-    end_scalation = end
     # day of the week as an integer, where Monday is 0 and Sunday is 6
     weekday = ['Monday', 'Tuesday', 'Wednesday', 'thursday', 'Friday', 'Saturday', 'Sunday']
 
-    time_range = DateTimeRange(start_scalation, end_scalation)
+    s = datetime.strptime(start_scalation, f).date()
+    e = datetime.strptime(end_scalation, f).date()
+
+    time_range = DateTimeRange(s, e) #this helps timedelta iterate on dates that didn't complete exactly 1 day
 
     for value in time_range.range(timedelta(days=1)):
         if value.weekday() == 5 or value.weekday() == 6:
@@ -20,8 +21,8 @@ def overtime_calculation(start, end, user, schedule_name):
             end = datetime.strptime((str(value.date()) + ' 23:59:59'), f)         
             
             start_absolute = start if (
-            datetime.strftime(value, f) != start_scalation
-            ) else value
+            value.date() != s
+            ) else datetime.strptime(start_scalation, f)
 
             end_absolute = datetime.strptime(end_scalation, f) if (
             value.date() == (datetime.strptime(end_scalation, f)).date()
@@ -43,8 +44,8 @@ def overtime_calculation(start, end, user, schedule_name):
             end = datetime.strptime((str(value.date()) + ' 23:59:59'), f)         
             
             start_absolute = start if (
-            datetime.strftime(value, f) != start_scalation
-            ) else value
+            value.date() != s
+            ) else datetime.strptime(start_scalation, f)
 
             end_absolute = datetime.strptime(end_scalation, f) if (
             value.date() == (datetime.strptime(end_scalation, f)).date()
